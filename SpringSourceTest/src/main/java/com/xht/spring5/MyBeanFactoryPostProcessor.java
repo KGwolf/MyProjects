@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  *
  * 这里，不加@Component不能执行，那么加了之后这个BFPP是如何被执行的呢？
  */
-//@Component
+@Component
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
