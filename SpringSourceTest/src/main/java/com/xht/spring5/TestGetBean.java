@@ -1,5 +1,6 @@
 package com.xht.spring5;
 
+import com.xht.spring5.beanfactorypostprocessor.MyCoustomBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestGetBean {
@@ -10,8 +11,12 @@ public class TestGetBean {
 //		p.setAge(1);
 //		
 		
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-		
+		//ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+		//自定义BeanFactory
+		ClassPathXmlApplicationContext ctx = new MyCoustomBeanFactory("applicationContext.xml");
+
+
 //		Person person = (Person)ctx.getBean("person");
 //		Food food = ctx.getBean("food",Food.class);
 //		
