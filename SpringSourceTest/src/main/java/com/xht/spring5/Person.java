@@ -1,11 +1,15 @@
 package com.xht.spring5;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Person {
 
 	private String name;
 	private int age;
 	private Food food;
-	
+	public Person() {
+		super();
+	}
 	
 	public Person(String name, int age, Food food) {
 		super();
@@ -13,9 +17,16 @@ public class Person {
 		this.age = age;
 		this.food = food;
 	}
-	
-	
-	public Food getFood() {
+
+	@Autowired
+    public Person(String name, int age) {
+		super();
+		this.name = name;
+		this.age = age;
+    }
+
+
+    public Food getFood() {
 		return food;
 	}
 	public void setFood(Food food) {

@@ -1,5 +1,7 @@
 package com.xht.spring5.factorybean;
 
+import org.springframework.stereotype.Controller;
+
 /**
  * @ClassName: TestClass
  * @Description: TODO

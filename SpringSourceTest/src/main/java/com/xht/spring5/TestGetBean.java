@@ -11,9 +11,11 @@ public class TestGetBean {
 //		p.setAge(1);
 //		
 		
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+//		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+//		ctx.getBean("myFactoryBean");
 
-		ctx.getBean("myFactoryBean")
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("constructorContext.xml");
+		ctx.getBean("person");
 		//自定义BeanFactory
 		//ClassPathXmlApplicationContext ctx = new MyCoustomBeanFactory("applicationContext.xml");
 
