@@ -1,12 +1,13 @@
 package com.xht.spring5;
 
-import com.xht.spring5.beanfactorypostprocessor.MyCoustomBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
 
 public class TestGetBean {
 
 	public static void main(String[] args) {
-		
+
 //		Person p = new Person();
 //		p.setAge(1);
 //		
