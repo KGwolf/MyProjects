@@ -5,6 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openjdk.jol.info.ClassLayout;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 
 /**
  * @ClassName: JUCTest1
@@ -17,9 +21,19 @@ import org.openjdk.jol.info.ClassLayout;
 public class JUCTest1 {
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
-//        ReentrantLock
+        //底层是NIO的方式
+       // InputStream input = Files.newInputStream(Paths.get("D:/para.txt"));
+
+        //底层是BIO的方式
+        InputStream in = new FileInputStream("D:/para.txt");
+        InputStream bin = new BufferedInputStream(in);
+        byte[] data = new byte[128];
+        int read = bin.read(data);
+
+
+//      ReentrantLock
 
         StringBuffer sb = new StringBuffer();
         sb.append("1").append("2").append("3");
