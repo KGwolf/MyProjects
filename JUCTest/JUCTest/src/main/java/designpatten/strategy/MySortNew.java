@@ -17,7 +17,6 @@ public class MySortNew {
         listRange.add(new AllRange(11,100,MySortStrategyFactory.createStrategy("out")));
         listRange.add(new AllRange(101,1000,MySortStrategyFactory.createStrategy("concurrent")));
         listRange.add(new AllRange(1001,10000,MySortStrategyFactory.createStrategy("mapreduce")));
-
     }
     public static void mySortOld(int fileSize){
         IStrategy strategy = null;
