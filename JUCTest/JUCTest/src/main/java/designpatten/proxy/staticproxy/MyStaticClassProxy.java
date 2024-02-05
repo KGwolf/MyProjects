@@ -4,7 +4,8 @@ package designpatten.proxy.staticproxy;
  * @ClassName: MyStaticClassProxy
  * @Description: 代理类
  * 主要是为了实现单一职责，记日志这些逻辑不适合跟主业务逻辑混合到一起
- * 这里不抽象出一个接口不行吗
+ * 这里不抽象出一个接口不行吗？
+ * 在使用的时候，需要用接口来调用方法。
  * @Author: xiahaitao
  * @Date: 2024/1/24 15:33
  * @Version: V1.0
