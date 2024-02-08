@@ -8,4 +8,5 @@ package designpatten.mediator;
  * @Version: V1.0
  */
 public class MyMediatorOld {
+
 }
