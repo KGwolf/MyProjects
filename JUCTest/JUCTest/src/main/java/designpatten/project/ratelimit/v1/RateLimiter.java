@@ -47,4 +47,11 @@ package designpatten.project.ratelimit.v1;
  * @Version: V1.0
  */
 public class RateLimiter {
+    //1.提供把配置解析成类的方法
+    public RateRule parseRule(){
+        //1.如果是yaml文件，从固定位置读取，然后进行解析
+      RateRule rule = parseRuleFromYaml();
+      return rule;
+    }
+    //2.根据配置类，进行规则判断。这属于是算法的范畴了。
 }
