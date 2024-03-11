@@ -28,7 +28,7 @@ public class cyclicbarrier {
 
 
     public void count(){
-        for(int i=0;i<3;i++){
+        for(int i=0;i<9;i++){
             threadPool.execute(new Runnable(){
 
                 @Override
