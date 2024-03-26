@@ -1,5 +1,9 @@
 package juc;
 
+import java.lang.ref.SoftReference;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * @ClassName: MyQueue
  * @Description: TODO
@@ -8,7 +12,5 @@ package juc;
  * @Version: V1.0
  */
 public class MyQueue {
-    public static void main(String[] args) {
-
-    }
+    SoftReference<String> sr = new SoftReference<>("1");
 }
