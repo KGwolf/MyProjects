@@ -24,7 +24,6 @@ public class JUCTest1 {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
-
         //底层是NIO的方式
        // InputStream input = Files.newInputStream(Paths.get("D:/para.txt"));
 

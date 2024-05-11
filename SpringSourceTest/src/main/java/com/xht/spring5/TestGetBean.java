@@ -1,5 +1,6 @@
 package com.xht.spring5;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
@@ -14,6 +15,11 @@ public class TestGetBean {
 		
 //		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 //		ctx.getBean("myFactoryBean");
+
+		AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext("com.xht.spring5.factorybean");
+		Object bean = ac.getBean("&myFactoryBean");
+		Object bean1 =  ac.getBean("myFactoryBean");;
+
 
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("constructorContext.xml");
 		ctx.getBean("person");
