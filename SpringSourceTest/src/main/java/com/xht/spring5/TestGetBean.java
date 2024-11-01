@@ -1,14 +1,24 @@
 package com.xht.spring5;
 
+import org.apache.hadoop.mapreduce.Mapper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 
 public class TestGetBean {
 
 	public static void main(String[] args) {
 
+
+		//TextInputFormat
+		//LineRecordReader
+		
 //		Person p = new Person();
 //		p.setAge(1);
 //		
