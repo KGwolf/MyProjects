@@ -1,5 +1,6 @@
 package com.xht.spring5;
 
+import com.xht.spring5.aop.MyTestAop;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -32,6 +33,10 @@ public class TestGetBean {
 		//这里是把这个类注册到beanDefinition中。
 		acT.register(MyBeanClass.class);
 		acT.refresh();
+
+		MyTestAop food = (MyTestAop)acT.getBean(MyTestAop.class);
+		food.testAop();
+		food.testAop2();
 
 		AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext("com.xht.spring5.factorybean");
 		Object bean2 = ac.getBean("serviceAnnotation");

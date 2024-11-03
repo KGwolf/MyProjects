@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @Date: 2023/3/22 17:13
  * @Version: V1.0
  */
-@Component
 public class MyPerson {
 
     private String name;
