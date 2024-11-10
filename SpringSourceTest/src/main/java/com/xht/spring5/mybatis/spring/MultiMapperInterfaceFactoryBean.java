@@ -31,38 +31,39 @@ import java.lang.reflect.Proxy;
  * @Date: 2024/11/8 9:37
  * @Version: V1.0
  */
-@Component
+//@Component
 public class MultiMapperInterfaceFactoryBean implements FactoryBean {
 
     private Class targetClass;
 
-//    private SqlSession sqlSession;
+    private SqlSession sqlSession;
 
     public MultiMapperInterfaceFactoryBean(Class classTarget){
         targetClass = classTarget;
     }
 
 
-//    @Autowired
-//    public void setSqlSession(SqlSessionFactory sqlSessionFactory){
-//        sqlSessionFactory.getConfiguration().addMapper(targetClass);
-//        sqlSession = sqlSessionFactory.openSession();
-//    }
+
+    @Autowired
+    public void setSqlSession(SqlSessionFactory sqlSessionFactory){
+        sqlSessionFactory.getConfiguration().addMapper(targetClass);
+        sqlSession = sqlSessionFactory.openSession();
+    }
 
     @Override
     public Object getObject() throws Exception {
         //这里我们用jdk的动态代理来获得一个代理类。真实用MyBatis，肯定是MyBatis自己内部实现的一个代理类。
-        Object o = Proxy.newProxyInstance(MultiMapperInterfaceFactoryBean.class.getClassLoader(), new Class[]{targetClass}, new InvocationHandler() {
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return null;
-            }
-        });
+//        Object o = Proxy.newProxyInstance(MultiMapperInterfaceFactoryBean.class.getClassLoader(), new Class[]{targetClass}, new InvocationHandler() {
+//            @Override
+//            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//                return null;
+//            }
+//        });
 
-//        return sqlSession.getMapper(targetClass);
+        return sqlSession.getMapper(targetClass);
 
 
-        return o;
+//        return o;
     }
 
     @Override

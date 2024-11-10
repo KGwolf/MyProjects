@@ -21,11 +21,11 @@ import java.io.InputStream;
 @ComponentScan
 @MyMapperScan("com.xht.spring5.mybatis.mapper")
 public class MyBatisConfigClass {
-//    @Bean
-//    public SqlSessionFactory sqlSessionFactory() throws Exception{
-//        String resource = "mybatis.xml";
-//        InputStream inputStream = Resources.getResourceAsStream(resource);
-//        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-//        return sqlSessionFactory;
-//    }
+    @Bean
+    public SqlSessionFactory sqlSessionFactory() throws Exception{
+        String resource = "mybatis.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        return sqlSessionFactory;
+    }
 }

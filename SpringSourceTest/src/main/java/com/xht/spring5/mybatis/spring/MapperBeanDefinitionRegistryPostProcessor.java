@@ -26,14 +26,17 @@ import org.springframework.stereotype.Component;
 public class MapperBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-                AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition(MultiMapperInterfaceFactoryBean.class).addConstructorArgValue(UserMapper.class).getBeanDefinition();
-        registry.registerBeanDefinition("multiMapperInterfaceFactoryBean",beanDefinition);
+        AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+        beanDefinition.setBeanClass(MultiMapperInterfaceFactoryBean.class);
+        beanDefinition.getConstructorArgumentValues().addGenericArgumentValue(UserMapper.class);
+        registry.registerBeanDefinition("UserMapper",beanDefinition);
+
 
         AbstractBeanDefinition beanDefinition2 = BeanDefinitionBuilder.genericBeanDefinition(MultiMapperInterfaceFactoryBean.class).addConstructorArgValue(ProductMapper.class).getBeanDefinition();
-        registry.registerBeanDefinition("multiMapperInterfaceFactoryBean2",beanDefinition2);
+        registry.registerBeanDefinition("ProductMapper",beanDefinition2);
 
         AbstractBeanDefinition beanDefinition3 = BeanDefinitionBuilder.genericBeanDefinition(MultiMapperInterfaceFactoryBean.class).addConstructorArgValue(OrderMapper.class).getBeanDefinition();
-        registry.registerBeanDefinition("multiMapperInterfaceFactoryBean3",beanDefinition3);
+        registry.registerBeanDefinition("OrderMapper",beanDefinition3);
     }
 
     @Override

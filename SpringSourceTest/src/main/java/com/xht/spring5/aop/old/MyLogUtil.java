@@ -1,4 +1,4 @@
-package com.xht.spring5.aop;
+package com.xht.spring5.aop.old;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface UserMapper {
-    @Select("select 'xht'")
+    @Select("select name from employees where id = 1")
     String getUserName();
 }
