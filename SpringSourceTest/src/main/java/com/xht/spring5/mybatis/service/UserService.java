@@ -29,18 +29,17 @@ public class UserService {
     @Autowired
     private ProductMapper productMapper;
 
+    @Autowired
+    private UserService userService;
+
     @Transactional
     public void testUserService(){
-        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
-        System.out.println("事务是否开启: " + transactionActive);
-        if (transactionActive) {
-            String transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
-            System.out.println("当前事务名称：" + transactionName);
-        }
+//        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
+//        System.out.println("事务是否开启: " + transactionActive);
 
         System.out.println("进入testUserService方法");
         String userName = userMapper.getUserName();
-        String orderName = getOrderName();
+        String orderName = userService.getOrderName();
         System.out.println("orderName的值为："+orderName);
         String productName = productMapper.getProductName();
         System.out.println("执行完getUserName："+userName);
@@ -48,12 +47,8 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String getOrderName(){
-        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
-        System.out.println("事务是否开启: " + transactionActive);
-        if (transactionActive) {
-            String transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
-            System.out.println("当前事务名称：" + transactionName);
-        }
+//        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
+//        System.out.println("事务是否开启: " + transactionActive);
 
         String orderName = orderMapper.getOrderName();
         return orderName;
