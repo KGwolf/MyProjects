@@ -6,6 +6,7 @@ import com.xht.spring5.mybatis.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -45,7 +46,7 @@ public class UserService {
         System.out.println("执行完getUserName："+userName);
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String getOrderName(){
         boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
         System.out.println("事务是否开启: " + transactionActive);
