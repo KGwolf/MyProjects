@@ -5,7 +5,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 /**
  * @ClassName: TransactionTest
- * @Description: TODO
+ * @Description: 这里运行，必须要先运行下MyBatisTest。。。。。为啥？
+ *
+ * 事务：提交、回滚、挂起、恢复
+ *
  * @Author: xiahaitao
  * @Date: 2024/11/11 14:15
  * @Version: V1.0
