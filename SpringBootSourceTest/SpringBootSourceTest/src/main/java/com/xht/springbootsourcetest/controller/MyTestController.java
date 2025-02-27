@@ -17,7 +17,7 @@ public class MyTestController {
 
     @RequestMapping("test1")
     @ResponseBody
-    public String test1(){
-        return "xht";
+    public String test1(String name){
+        return "xht："+name;
     }
 }
