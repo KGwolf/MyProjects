@@ -22,23 +22,23 @@ import java.util.List;
 public class AopTest {
     public static void main(String[] args) {
         //1.ProxyFactory的使用
-//        UserService targetUserService = new UserService();
-//        ProxyFactory proxyFactory = new ProxyFactory();
-//
-//        proxyFactory.setTarget(targetUserService);
-//        proxyFactory.addAdvice(new MyBeforeAdvice());//这个被代理类上的所有方法都会执行这个Advice。
-//        proxyFactory.addAdvisor(new MyPointcutAdvisor());//添加一个Advisor，可以筛选出被代理类上的某一些方法才执行对应的Advice。
-//
-//        proxyFactory.setInterfaces();
-//        UserService userService = (UserService)proxyFactory.getProxy();
-//        userService.getUserName();
+        UserService targetUserService = new UserService();
+        ProxyFactory proxyFactory = new ProxyFactory();
+
+        proxyFactory.setTarget(targetUserService);
+        proxyFactory.addAdvice(new MyBeforeAdvice());//这个被代理类上的所有方法都会执行这个Advice。
+        proxyFactory.addAdvisor(new MyPointcutAdvisor());//添加一个Advisor，可以筛选出被代理类上的某一些方法才执行对应的Advice。
+
+        proxyFactory.setInterfaces();
+        UserService userService = (UserService)proxyFactory.getProxy();
+        userService.getUserName();
 
         //2.Spring注解的方式。
-        AnnotationConfigApplicationContext acT = new AnnotationConfigApplicationContext();
-        acT.register(MyAopConfigClass.class);
-        acT.refresh();
-
-        UserService user = (UserService)acT.getBean("userService");
-        user.getUserName();
+//        AnnotationConfigApplicationContext acT = new AnnotationConfigApplicationContext();
+//        acT.register(MyAopConfigClass.class);
+//        acT.refresh();
+//
+//        UserService user = (UserService)acT.getBean("userService");
+//        user.getUserName();
     }
 }

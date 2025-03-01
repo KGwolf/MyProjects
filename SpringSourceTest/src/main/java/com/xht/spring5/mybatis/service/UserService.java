@@ -13,6 +13,8 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 /**
  * @ClassName: UserService
  * @Description:
+ * 这里mybatis倒是没问题
+ * 事务测试的时候，始终没效果，数据库连接会产生很多。不知道为啥。
  * @Author: xiahaitao
  * @Date: 2024/11/7 11:20
  * @Version: V1.0
@@ -31,11 +33,14 @@ public class UserService {
 
     @Autowired
     private UserService userService;
-
     @Transactional
     public void testUserService(){
-//        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
-//        System.out.println("事务是否开启: " + transactionActive);
+        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
+        System.out.println("事务是否开启: " + transactionActive);
+        if (transactionActive) {
+            String transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
+            System.out.println("当前事务名称：" + transactionName);
+        }
 
         System.out.println("进入testUserService方法");
         String userName = userMapper.getUserName();
@@ -45,10 +50,15 @@ public class UserService {
         System.out.println("执行完getUserName："+userName);
     }
 
+//(propagation = Propagation.REQUIRES_NEW)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String getOrderName(){
-//        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
-//        System.out.println("事务是否开启: " + transactionActive);
+        boolean transactionActive = TransactionSynchronizationManager.isActualTransactionActive();
+        System.out.println("事务是否开启: " + transactionActive);
+        if (transactionActive) {
+            String transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
+            System.out.println("当前事务名称：" + transactionName);
+        }
 
         String orderName = orderMapper.getOrderName();
         return orderName;
