@@ -1,5 +1,7 @@
 package com.xht.ShardingSphereTest.jdbc.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+
 /**
  * @ClassName: Account
  * @Description: TODO
@@ -8,16 +10,27 @@ package com.xht.ShardingSphereTest.jdbc.entity;
  * @Version: V1.0
  */
 public class Account {
-    private int id;
+
+/***
+    * @param
+    * @return java.lang.Long
+    * @Description 注意这里，字段名称不是id的话，需要手动加上 @TableId （是id的话，mybatis plus会主动当成主键），然后类型必须是Long 包装类型
+    * @Author  xiahaitao
+    * @Date   2025/3/5 11:44
+    */
+    public Long getAid() {
+        return aid;
+    }
+
+    public void setAid(Long aid) {
+        this.aid = aid;
+    }
+
+    @TableId
+    private Long aid;
     private String name;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -40,7 +53,7 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + id +
+                "aid=" + aid +
                 ", name='" + name + '\'' +
                 ", balance=" + balance +
                 '}';
