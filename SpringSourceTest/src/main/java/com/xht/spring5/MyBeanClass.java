@@ -21,8 +21,8 @@ import java.lang.reflect.Method;
  * @Date: 2023/3/13 11:25
  * @Version: V1.0
  */
-@Configuration
-@ComponentScan
+//@Configuration
+//@ComponentScan
 //@EnableAspectJAutoProxy
 public class MyBeanClass {
     @Bean

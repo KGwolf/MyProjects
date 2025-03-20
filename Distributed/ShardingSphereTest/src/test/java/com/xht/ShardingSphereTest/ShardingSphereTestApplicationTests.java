@@ -111,7 +111,10 @@ class ShardingSphereTestApplicationTests {
     @Test
     public void queryAccount4() {
         QueryWrapper<Account> wrapper = new QueryWrapper<Account>();
-        wrapper.eq("aid",4L);
+//        wrapper.eq("aid",1897192875311443970L);
+
+        //wrapper.between("aid",1897192875311443969L,1897192875311443971L);
+        wrapper.in("aid",1897192875311443970L,1897192869523304449L);
         List<Account> courses = accountMapper.selectList(wrapper);
         courses.forEach(course -> System.out.println(course));
     }

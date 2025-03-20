@@ -27,9 +27,9 @@ public class TestGetBean {
 		acT.register(MyBeanClass.class);
 		acT.refresh();
 
-		MyTestAop food = (MyTestAop)acT.getBean(MyTestAop.class);
-		food.testAop();
-		food.testAop2();
+//		MyTestAop food = (MyTestAop)acT.getBean(MyTestAop.class);
+//		food.testAop();
+//		food.testAop2();
 
 		AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext("com.xht.spring5.factorybean");
 		Object bean2 = ac.getBean("serviceAnnotation");
