@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SequenceController {
 
     @RequestMapping(value = "/api/sequence/get")
-    public String getSegmentId() {
+    public String getSequenceId() {
         return IdGenerator.getIdStr();
     }
 

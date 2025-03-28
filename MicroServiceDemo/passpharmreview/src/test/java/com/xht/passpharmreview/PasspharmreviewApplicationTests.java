@@ -10,4 +10,8 @@ class PasspharmreviewApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    void test1(){
+
+    }
 }
