@@ -1,4 +1,4 @@
-package com.xht.passpharmreview.model.screen;
+package com.xht.passpharmreview.model.screen.inputmodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

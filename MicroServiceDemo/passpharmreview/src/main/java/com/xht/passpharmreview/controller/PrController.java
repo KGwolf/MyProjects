@@ -36,7 +36,7 @@ public class PrController {
     /***
      * @param input
      * @return java.lang.String
-     * @Description 审查接口
+     * @Description 审查接口  sentinal限流。
      * @Author xiahaitao
      * @Date 2025/3/24 15:25
      */
@@ -47,9 +47,18 @@ public class PrController {
 
 
     @PostMapping(value = "/getTaskStatus", produces = {"text/html;charset=utf-8"})
-    public String getTaskStatus(@RequestParam("psJSONStr") String psJsonStr) {
-        return "";
-//        psJsonStr = doSpecialStr(psJsonStr);
-//        return getStatusService.perform(psJsonStr);
+    public String getTaskStatus(@RequestParam("taskId") String taskId) {
+        String taskStatus = screenService.getTaskStatus(taskId);
+        return taskStatus;
+
+    }
+
+    @PostMapping(value = "/applyForReview", produces = {"text/html;charset=utf-8"})
+    public String applyForReview(@RequestParam("taskId") String taskId) {
+        //修改任务状态，同时通知药师来获取任务，还有一个重要的倒计时，先放入rocketmq，进行超时处理。
+        //这里要保证每个任务获取状态，都定位到同一个机器上，才不会去请求redis。
+        screenService.applyForReview(taskId);
+        return "1";
+
     }
 }

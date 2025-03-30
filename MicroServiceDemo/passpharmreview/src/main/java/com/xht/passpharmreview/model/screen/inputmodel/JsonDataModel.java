@@ -1,11 +1,7 @@
-package com.xht.passpharmreview.model.screen;
+package com.xht.passpharmreview.model.screen.inputmodel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * @ClassName: JsonDataModel

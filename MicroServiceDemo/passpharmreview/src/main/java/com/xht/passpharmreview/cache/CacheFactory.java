@@ -4,6 +4,7 @@ import com.xht.passpharmreview.cache.cachedesign.CacheDelayDoubleDelete;
 import com.xht.passpharmreview.cache.cachedesign.CacheReadThrough;
 import com.xht.passpharmreview.cache.cachedesign.CacheWriteThrough;
 import com.xht.passpharmreview.cache.multicache.MultiLevelCacheDelayDoubleDelete;
+import com.xht.passpharmreview.cache.multicache.MultiLevelCacheOnlyUpdateCache;
 import com.xht.passpharmreview.cache.multicache.MultiLevelCacheReadThrough;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,10 @@ public class CacheFactory<K, V> {
     public  CacheBase<K, V> createMultiLevelCacheReadThrough(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache,  Function<K, V> getFunc)
     {
         return new MultiLevelCacheReadThrough<K, V>(localCache, remoteCache, getFunc);
+    }
+
+    public CacheBase<K, V> createMultiLevelOnlyWriteCache(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache) {
+        return new MultiLevelCacheOnlyUpdateCache<K, V>(localCache, remoteCache);
     }
     //endregion
 }

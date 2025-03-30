@@ -24,3 +24,13 @@ spring:
         max-idle: 8 # 连接池中的最大空闲连接
         min-idle: 0 # 连接池中的最小空闲连接
       timeout: 3000ms # 连接超时时间（毫秒）
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/passprdb?serverTimezone=UTC
+    username: root
+    password: 123456
+    initial-size: 1
+    min-idle: 1
+    max-active: 20
+    test-on-borrow: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
