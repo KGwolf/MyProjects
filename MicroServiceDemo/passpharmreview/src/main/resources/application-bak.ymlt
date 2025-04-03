@@ -66,60 +66,40 @@ spring:
         url: jdbc:mysql://localhost:3309/passprdb?serverTimezone=UTC
         username: root
         password: 123456
-      #VIP医院单独的库配置 vip+医院ID
-      VIP1000:
-        type: com.alibaba.druid.pool.DruidDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3308/passprdb?serverTimezone=UTC
-        username: root
-        password: 123456
-    # 指定默认数据源-不是分片表的要走这个库。查询走对应的从库。
-    default-data-source-name: master1
+
     rules:
       sharding:
         # 分库策略：按 taskid 分到 master1 或 master2
         default-database-strategy:
           standard:
             sharding-column: taskid
-#            sharding-algorithm-name: db-inline
-            sharding-algorithm-name: custome-db
+            sharding-algorithm-name: db-inline
         tables:
           clinic_task_info:
-            actual-data-nodes: master$->{1..2}.clinic_task_info$->{1..4},VIP1000.clinic_task_info  # 动态匹配所有库表
+            actual-data-nodes: master$->{1..2}.clinic_task_info$->{1..4}  # 动态匹配所有库表
             # 分表策略：按 taskid 分到 4 张表
             table-strategy:
               standard:
                 sharding-column: taskid
-                sharding-algorithm-name: custome-taskinfo-table
-#                sharding-algorithm-name: table-inline
-#          pr_taskinfo_question:
-#            actual-data-nodes: master$->{1..2}.clinic_task_info_question$->{1..4}
-#            table-strategy:
-#              standard:
-#                sharding-column: taskid
-#                sharding-algorithm-name: table-inline
+                sharding-algorithm-name: table-inline
+          pr_taskinfo_question:
+            actual-data-nodes: master$->{1..2}.clinic_task_info_question$->{1..4}
+            table-strategy:
+              standard:
+                sharding-column: taskid
+                sharding-algorithm-name: table-inline
         # 分片算法定义
         sharding-algorithms:
-#          db-inline: # 分库算法
-#            type: INLINE
-#            props:
-#              algorithm-expression: master$->{taskid % 2 + 1}  # 取模分到 master1 或 master2
-          custome-db:
-            type: CUSTOME-DB
+          db-inline: # 分库算法
+            type: INLINE
             props:
-              strategy: custom
-          custome-taskinfo-table:
-            type: CUSTOME-TASKINFO-TABLE
+              algorithm-expression: master$->{taskid % 2 + 1}  # 取模分到 master1 或 master2
+          table-inline: # 分表算法
+            type: INLINE
             props:
-              strategy: custom
-#          table-inline: # 分表算法
-#            type: INLINE
-#            props:
-#              algorithm-expression: clinic_task_info$->{taskid % 4 + 1}  # 分到 1~4 表
-
+              algorithm-expression: clinic_task_info$->{taskid % 4 + 1}  # 分到 1~4 表
 
       # 读写分离规则（每个主库对应一个从库组）
-
       readwrite-splitting:
         data-sources:
           master1: # 原有读写组

@@ -39,17 +39,65 @@ public class TaskManager {
     @Autowired
     private TaskListMapper taskListMapper;
 
+    /***
+     * @param key
+     * @param json
+     * @return void
+     * @Description 这个一般是修改记录用的，
+     * @Author xiahaitao
+     * @Date 2025/4/3 10:41
+     */
     public void setTaskModel(String key, TaskListCacheModel json) {
         CacheBase<String, TaskListCacheModel> putCache = cacheFactory.createMultiLevelWriteCacheWithDelayDoubleDelete(taskLocalCache, taskRemoteCache, putFunc);
         putCache.put(key, json);
 
     }
 
+    /***
+     * @param key
+     * @param json
+     * @return void
+     * @Description 更新倒计时信息到本地缓存。这里不要更新到redis或者数据库，因为没有意义。就算机器宕机了，从redis取出来重新算一下时间就行了。
+     * @Author xiahaitao
+     * @Date 2025/4/3 13:12
+     */
+    public void updateRemainTimeToCache(String key, TaskListCacheModel json) {
+        taskLocalCache.put(key, json);
+    }
+
+    /***
+     * @param key
+     * @param json
+     * @return void
+     * @Description 这是直接放缓存操作，一般用于新增到数据库之后的操作
+     * @Author xiahaitao
+     * @Date 2025/4/3 10:40
+     */
+    public void setTaskModelToCache(String key, TaskListCacheModel json) {
+        taskLocalCache.put(key, json);
+        taskRemoteCache.put(key, json);
+    }
+
+    /***
+     * @param key
+     * @param json
+     * @return void
+     * @Description 这是新增一条记录到数据库。
+     * @Author xiahaitao
+     * @Date 2025/4/3 10:40
+     */
     public void addTaskListModel(String key, TaskListCacheModel json) {
         //这里是添加一条数据到数据库中。不需要操作缓存，
         addDb(key, json);
     }
 
+    /***
+     * @param key
+     * @return com.xht.passpharmreview.model.screen.cachemodel.TaskListCacheModel
+     * @Description 根据key获取值，多级缓存模式的读穿透
+     * @Author xiahaitao
+     * @Date 2025/4/3 10:41
+     */
     public TaskListCacheModel getTaskModel(String key) {
         CacheBase<String, TaskListCacheModel> readCache = cacheFactory.createMultiLevelCacheReadThrough(taskLocalCache, taskRemoteCache, getFunc);
         return readCache.get(key);

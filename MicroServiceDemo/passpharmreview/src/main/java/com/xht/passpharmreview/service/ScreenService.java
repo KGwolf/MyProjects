@@ -37,16 +37,16 @@ public class ScreenService {
     @Autowired
     CoreScreenService coreScreenService;
 
-    @Autowired
-    RedisOpsExtUtil redisOpsExtUtil;
+//    @Autowired
+//    RedisOpsExtUtil redisOpsExtUtil;
 
     @Autowired
     UqIdService uqIdService;
     @Autowired
     TaskManager taskManager;
 
-    @Autowired
-    CaffeineLocalCache<String, TaskListCacheModel> localCache;
+//    @Autowired
+//    CaffeineLocalCache<String, TaskListCacheModel> localCache;
     private static final Map<String, Integer> map = new HashMap<>();
 
     private static final Map<String, Integer> doctorMap = new HashMap<>();
@@ -126,8 +126,11 @@ public class ScreenService {
 
         taskAllCacheModel.setTaskListCacheModel(taskListCacheModel);
 
-        //分库分表---这里也要放入mq去执行。
+        //分库分表---这里不要放到mq了，必须要同步插入数据库。
         taskManager.addTaskListModel(taskIdLong.toString(), taskListCacheModel);
+        //上面插入库里了，这里可以直接放缓存，就算放失败了也没关系，下面用到的时候会走数据库。
+        taskManager.setTaskModelToCache(taskIdLong.toString(), taskListCacheModel);
+
         TaskListCacheModel taskModel = taskManager.getTaskModel(taskIdLong.toString());
 //        redisOpsExtUtil.putHash("taskscache", taskIdLong.toString(), screenResStr);
 
@@ -168,7 +171,7 @@ public class ScreenService {
                 //这里如果也走延时双删的话，就会有性能问题，因为每次来获取状态，缓存里面都会没有。。
                 //更新倒计时信息，这个不能用延时双删，也不能实时操作数据库。只能操作缓存和redis
                 taskModel.setRemainTime(overTime- (int) diffTime);
-                localCache.put(taskId,taskModel);
+                taskManager.updateRemainTimeToCache(taskId,taskModel);
             }
         }
         String s = JsonUtils.toJSONString(taskModel);

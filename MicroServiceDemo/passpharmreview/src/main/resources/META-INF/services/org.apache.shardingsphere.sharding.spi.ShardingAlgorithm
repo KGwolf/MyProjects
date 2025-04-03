@@ -1,0 +1,2 @@
+com.xht.passpharmreview.config.shardingshpere.PrDataBaseShardingAlgorithm
+com.xht.passpharmreview.config.shardingshpere.PrTaskInfoShardingAlgorithm

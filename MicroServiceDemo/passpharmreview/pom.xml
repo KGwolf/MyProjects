@@ -18,6 +18,7 @@
             <groupId>com.xht</groupId>
             <artifactId>projectcommom</artifactId>
             <version>0.0.1</version>
+
         </dependency>
 
         <dependency>
@@ -53,10 +54,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
 
         <!-- Caffeine -->
         <dependency>
@@ -80,10 +77,36 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.5</version>
         </dependency>
+<!--        这个跟sharding jdbc冲突，因为它会自己创建数据源-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--            <version>1.2.6</version>-->
+<!--        </dependency>-->
+
+
+        <!-- shardingJDBC核心依赖 -->
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
+            <version>5.2.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>snakeyaml</artifactId>
+                    <groupId>org.yaml</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- 坑爹的版本冲突 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.33</version>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.6</version>
+            <artifactId>druid</artifactId>
+            <version>1.1.20</version>
         </dependency>
         <!--Hutool Java工具包-->
 <!--        <dependency>-->
