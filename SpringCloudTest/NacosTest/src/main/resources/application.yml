@@ -1,0 +1,18 @@
+server:
+  port: 9005
+
+spring:
+  application:
+    name: nacos-test # 服务名称
+  config:
+    import:
+      nacos: # Import configuration from Nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # Nacos 的地址
+      config:
+        import-check:
+          enabled: false
+        server-addr: localhost:8848 # Nacos 的地址
+        file-extension: yaml        # 配置文件格式，可选 properties、yaml、json 等

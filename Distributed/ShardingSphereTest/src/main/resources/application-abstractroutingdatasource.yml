@@ -1,0 +1,27 @@
+# 这个是Spring提供的AbstractRoutingDataSource，用于动态数据源
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #自定义第一个数据源
+    datasource1:
+      url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+      username: root
+      password: 123456
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    #自定义第二个数据源
+    datasource2:
+      url: jdbc:mysql://localhost:3306/test2?serverTimezone=UTC
+      username: root
+      password: 123456
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 9005

@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: pr          # 路由唯一标识
+          uri: lb://pr    # 目标服务地址（lb表示负载均衡）
+          predicates:
+            - Path=/pr/**         # 路径匹配断言
+            #- Before=2025-03-28T01:01:01.000+08:00  # 时间断言
+          filters:
+            - StripPrefix=1          # 去掉路径前缀

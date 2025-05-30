@@ -1,0 +1,170 @@
+server:
+  port: 10011
+
+spring:
+  devtools:
+    restart:
+      enabled: false
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        group: DEFAULT_GROUP
+      config:
+        group: DEFAULT_GROUP
+        import-check:
+          enabled: false
+    loadbalancer:
+      ribbon:
+        enabled: false
+      enabled: true
+
+    sentinel:
+      transport:
+        # 添加sentinel的控制台地址
+        dashboard: 127.0.0.1:8899
+        # 指定应用与Sentinel控制台交互的端口，应用会起一个HttpServer占用该端口 16
+        port: 8719
+    zookeeper:
+      #多个pr节点，用localhost会报错
+      #2025-05-27 19:51:46.398 ERROR 42516 --- [ain-EventThread] o.a.c.framework.imps.EnsembleTracker     : Invalid config event received: {server.1=localhost:2888:3888:participant, version=0, server.3=localhost:2890:3890:participant, server.2=localhost:2889:3889:participant}
+      connect-string: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183  # 集群节点地址[1,5](@ref)
+      base-sleep-time: 1000        # 初始重试间隔（毫秒）
+      max-retries: 3               # 最大重试次数
+      session-timeout: 30000       # 会话超时时间
+      connection-timeout: 15000    # 连接超时时间
+
+  application:
+    name: pr
+
+  redis:
+    host: 127.0.0.1 # Redis 服务器主机地址
+    port: 6379 # Redis 服务器端口号
+    lettuce:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+      timeout: 3000ms # 连接超时时间（毫秒）
+
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://localhost:3306/passprdb?serverTimezone=UTC
+#    username: root
+#    password: 123456
+#    initial-size: 1
+#    min-idle: 1
+#    max-active: 20
+#    test-on-borrow: true
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  #分库分表配置
+  shardingsphere:
+    datasource:
+      names: master1,slave1,master2,slave2
+      # 主库配置（写操作）
+      master1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/passprdb?serverTimezone=UTC
+        username: root
+        password: 123456
+      master2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3308/passprdb?serverTimezone=UTC
+        username: root
+        password: 123456
+      # 从库配置（读操作）
+      slave1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3307/passprdb?serverTimezone=UTC
+        username: root
+        password: 123456
+      slave2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3309/passprdb?serverTimezone=UTC
+        username: root
+        password: 123456
+      #VIP医院单独的库配置 vip+医院ID
+      VIP1000:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3308/passprdb?serverTimezone=UTC
+        username: root
+        password: 123456
+    # 指定默认数据源-不是分片表的要走这个库。查询走对应的从库。
+    default-data-source-name: master1
+    rules:
+      sharding:
+        # 分库策略：按 taskid 分到 master1 或 master2
+        default-database-strategy:
+          standard:
+            sharding-column: taskid
+#            sharding-algorithm-name: db-inline
+            sharding-algorithm-name: custome-db
+        tables:
+          clinic_task_info:
+            actual-data-nodes: master$->{1..2}.clinic_task_info$->{1..4},VIP1000.clinic_task_info  # 动态匹配所有库表
+            # 分表策略：按 taskid 分到 4 张表
+            table-strategy:
+              standard:
+                sharding-column: taskid
+                sharding-algorithm-name: custome-taskinfo-table
+#                sharding-algorithm-name: table-inline
+#          pr_taskinfo_question:
+#            actual-data-nodes: master$->{1..2}.clinic_task_info_question$->{1..4}
+#            table-strategy:
+#              standard:
+#                sharding-column: taskid
+#                sharding-algorithm-name: table-inline
+        # 分片算法定义
+        sharding-algorithms:
+#          db-inline: # 分库算法
+#            type: INLINE
+#            props:
+#              algorithm-expression: master$->{taskid % 2 + 1}  # 取模分到 master1 或 master2
+          custome-db:
+            type: CUSTOME-DB
+            props:
+              strategy: custom
+          custome-taskinfo-table:
+            type: CUSTOME-TASKINFO-TABLE
+            props:
+              strategy: custom
+#          table-inline: # 分表算法
+#            type: INLINE
+#            props:
+#              algorithm-expression: clinic_task_info$->{taskid % 4 + 1}  # 分到 1~4 表
+
+
+      # 读写分离规则（每个主库对应一个从库组）
+
+      readwrite-splitting:
+        data-sources:
+          master1: # 原有读写组
+            static-strategy:
+              write-data-source-name: master1
+              read-data-source-names: slave1
+            load-balancer-name: random  # 使用随机负载均衡
+          master2: # 新增读写组
+            static-strategy:
+              write-data-source-name: master2  # 指向新主库
+              read-data-source-names: slave2
+            load-balancer-name: round_robin  # 使用轮询负载均衡
+        load-balancers:
+          random: # 原有负载均衡器
+            type: RANDOM
+          round_robin: # 新增负载均衡器
+            type: ROUND_ROBIN
+
+    props:
+      sql-show: true  # 打印 SQL 路由日志
+
+distributed:
+  lock:
+    type: zookeeper  # 动态切换为 redis 或 zookeeper
