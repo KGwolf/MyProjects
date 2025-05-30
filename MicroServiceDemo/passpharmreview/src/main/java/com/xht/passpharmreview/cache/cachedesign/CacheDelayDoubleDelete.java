@@ -104,16 +104,16 @@ public class CacheDelayDoubleDelete<K, V> implements CacheBase<K, V> {
 
     @Override
     public Collection<V> getMany(Collection<K> keys) {
-        return Collections.emptyList();
+        return cache.getMany(keys);
     }
 
     @Override
     public void removeMany(Collection<K> keys) {
-
+        cache.removeMany(keys);
     }
 
     @Override
     public void removeAll() {
-
+        cache.removeAll();
     }
 }
