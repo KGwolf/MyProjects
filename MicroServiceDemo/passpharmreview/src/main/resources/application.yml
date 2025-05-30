@@ -25,6 +25,15 @@ spring:
         dashboard: 127.0.0.1:8899
         # 指定应用与Sentinel控制台交互的端口，应用会起一个HttpServer占用该端口 16
         port: 8719
+    zookeeper:
+      #多个pr节点，用localhost会报错
+      #2025-05-27 19:51:46.398 ERROR 42516 --- [ain-EventThread] o.a.c.framework.imps.EnsembleTracker     : Invalid config event received: {server.1=localhost:2888:3888:participant, version=0, server.3=localhost:2890:3890:participant, server.2=localhost:2889:3889:participant}
+      connect-string: 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183  # 集群节点地址[1,5](@ref)
+      base-sleep-time: 1000        # 初始重试间隔（毫秒）
+      max-retries: 3               # 最大重试次数
+      session-timeout: 30000       # 会话超时时间
+      connection-timeout: 15000    # 连接超时时间
+
   application:
     name: pr
 
@@ -155,3 +164,7 @@ spring:
 
     props:
       sql-show: true  # 打印 SQL 路由日志
+
+distributed:
+  lock:
+    type: zookeeper  # 动态切换为 redis 或 zookeeper

@@ -10,7 +10,6 @@ import com.xht.passpharmreview.utils.TimeUtils;
 import com.xht.projectcommom.feignapi.coreapi.CoreScreenService;
 import com.xht.projectcommom.feignapi.uqidapi.UqIdService;
 import com.xht.projectcommom.util.jsonutil.JsonUtils;
-import com.xht.projectcommom.util.redisutil.RedisOpsExtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -126,7 +125,8 @@ public class ScreenService {
 
         taskAllCacheModel.setTaskListCacheModel(taskListCacheModel);
 
-        //分库分表---这里不要放到mq了，必须要同步插入数据库。
+        //这里是先插入数据库，然后再缓存。
+        //分库分表---这里不要放到mq了，必须要同步插入数据库。why？这里如果失败了，同时缓存数据丢失，那么任务就丢失了（虽然缓存处理成功，给了HIS返回通过，但是库里面没有数据。）但是这样同步插入会不会影响效率哦？分库分表了之后，这里压力应该没得这么大，还好吧。
         taskManager.addTaskListModel(taskIdLong.toString(), taskListCacheModel);
         //上面插入库里了，这里可以直接放缓存，就算放失败了也没关系，下面用到的时候会走数据库。
         taskManager.setTaskModelToCache(taskIdLong.toString(), taskListCacheModel);
@@ -134,7 +134,7 @@ public class ScreenService {
         TaskListCacheModel taskModel = taskManager.getTaskModel(taskIdLong.toString());
 //        redisOpsExtUtil.putHash("taskscache", taskIdLong.toString(), screenResStr);
 
-        //4.放入rocketmq中进行存库。这里存history表、问题表等等。 分库分表
+        //4.放入rocketmq、kafka（为了熟悉这些中间件，都可以做一遍）中进行存库。这里存history表、问题表等等。 分库分表
 
         return "";
     }
@@ -152,6 +152,9 @@ public class ScreenService {
             taskModel.setRemainTime(overTime);//这里的时间根据系统设置来。先写个1000s
             taskManager.setTaskModel(taskId,taskModel);
         }
+
+        //怎么通知药师有新任务发生？根据任务上医院+科室ID来通知监测这个条件对应的药师（给药师缓存上挂一个预分配的节点）
+        //药师缓存应该放到redis里面去。（本地缓存也要？只是修改、读取这个预分配属性的时候，需要操作redis？ 又或者不用延迟双删？）
     }
 
     public String getTaskStatus(String taskId) {

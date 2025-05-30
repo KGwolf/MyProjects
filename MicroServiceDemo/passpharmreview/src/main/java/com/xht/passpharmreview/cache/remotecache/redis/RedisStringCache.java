@@ -3,6 +3,10 @@ package com.xht.passpharmreview.cache.remotecache.redis;
 import com.xht.passpharmreview.cache.remotecache.RemoteCacheBase;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
 /**
  * @ClassName: RedisCache
  * @Description: TODO
@@ -26,5 +30,15 @@ public class RedisStringCache<K,V> implements RemoteCacheBase<K,V> {
     @Override
     public void remove(K key) {
 
+    }
+
+    @Override
+    public void putMany(Map<K, V> map) {
+
+    }
+
+    @Override
+    public Collection<V> getAll() {
+        return Collections.emptyList();
     }
 }

@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 /**
  * @ClassName: TaskManager
- * @Description: TODO
+ * @Description: 任务管理器：审查过程中任务的操作
  * @Author: xiahaitao
  * @Date: 2025/3/28 9:50
  * @Version: V1.0
@@ -26,6 +26,11 @@ public class TaskManager {
         updateDb(key, value);
         return null;
     };
+    private final BiFunction<String, TaskListCacheModel, TaskListCacheModel> putManyFunc = (key, value) -> {
+        updateDb(key, value);
+        return null;
+    };
+
     private final Function<String, TaskListCacheModel> getFunc = key -> {
         return getFromDb(key);
     };
@@ -44,6 +49,7 @@ public class TaskManager {
      * @param json
      * @return void
      * @Description 这个一般是修改记录用的，
+     *      延迟双删有个问题：每次修改的时候redis就会删除缓存，然后下次请求还需要从数据库中去取
      * @Author xiahaitao
      * @Date 2025/4/3 10:41
      */
@@ -109,6 +115,11 @@ public class TaskManager {
         //其实这里只需要修改userid 和 status就行了。因为一个任务的变化就这2个地方。
         taskListMapper.updateTaskList(value);
     }
+    private void updateManyToDb(String key, TaskListCacheModel value) {
+        //这里只是用来修改，根据key找到对应的值，然后进行修改，修改哪些值呢？可以弄多个方法。一个方法更新不同的值。
+        //其实这里只需要修改userid 和 status就行了。因为一个任务的变化就这2个地方。
+        taskListMapper.updateTaskList(value);
+    }
 
     /**
      * @description: 添加一条数据到taskinfo表
@@ -127,5 +138,6 @@ public class TaskManager {
         return taskListMapper.getTaskList(Long.parseLong(key));
     }
     //endregion
+
 
 }

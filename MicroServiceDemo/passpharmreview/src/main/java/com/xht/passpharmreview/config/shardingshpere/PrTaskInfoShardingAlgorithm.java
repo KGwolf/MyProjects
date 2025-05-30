@@ -44,6 +44,7 @@ public class PrTaskInfoShardingAlgorithm implements StandardShardingAlgorithm<Lo
     public String doSharding(Collection<String> collection, PreciseShardingValue<Long> preciseShardingValue) {
         long value = preciseShardingValue.getValue();
         String logicTableName = preciseShardingValue.getLogicTableName();//操作的逻辑表 course
+        //2主2从，所以这里余2。这里应该读sql应该会走对应的从库？
         String targetTable = logicTableName + (value % 2 + 1);
         if (collection.contains(targetTable)) {
             return targetTable;

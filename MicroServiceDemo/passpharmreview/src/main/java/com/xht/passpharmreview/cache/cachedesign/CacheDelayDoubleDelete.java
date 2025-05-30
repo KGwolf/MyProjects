@@ -2,6 +2,9 @@ package com.xht.passpharmreview.cache.cachedesign;
 
 import com.xht.passpharmreview.cache.CacheBase;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -52,5 +55,43 @@ public class CacheDelayDoubleDelete<K,V> implements CacheBase<K,V> {
     @Override
     public void remove(K key) {
         cache.remove(key);
+    }
+
+    /***
+        * @param map
+        * @return void
+        * @Description 延迟双删的
+        * @Author  xiahaitao
+        * @Date   2025/5/29 10:03
+        */
+    @Override
+    public void putMany(Map<K, V> map) {
+        //1、先删除缓存
+        cache.removeMany(key);
+        V res = putFunc.apply(key, value);
+        // 调度第二次删除缓存的任务
+        scheduler.schedule(() -> {
+            cache.remove(key);
+        }, DELAY_TIME, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Collection<V> getAll() {
+        return cache.getAll();
+    }
+
+    @Override
+    public Collection<V> getMany(Collection<K> keys) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public void removeMany(Collection<K> keys) {
+
+    }
+
+    @Override
+    public void removeAll() {
+
     }
 }

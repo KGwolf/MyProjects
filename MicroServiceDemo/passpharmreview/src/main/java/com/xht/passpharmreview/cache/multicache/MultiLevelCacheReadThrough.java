@@ -3,6 +3,9 @@ package com.xht.passpharmreview.cache.multicache;
 import com.xht.passpharmreview.cache.CacheBase;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -65,5 +68,15 @@ public class MultiLevelCacheReadThrough  <K,V> implements CacheBase<K,V> {
     @Override
     public void remove(K key) {
         throw new UnsupportedOperationException("不支持该操作");
+    }
+
+    @Override
+    public void putMany(Map<K, V> map) {
+
+    }
+
+    @Override
+    public Collection<V> getAll() {
+        return Collections.emptyList();
     }
 }

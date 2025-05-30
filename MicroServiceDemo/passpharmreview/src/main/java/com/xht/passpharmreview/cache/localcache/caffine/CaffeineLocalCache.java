@@ -4,6 +4,10 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.xht.passpharmreview.cache.localcache.LocalCacheBase;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,5 +41,15 @@ public class CaffeineLocalCache <K, V> implements LocalCacheBase<K, V> {
     @Override
     public void remove(K key) {
         cache.invalidate(key);
+    }
+
+    @Override
+    public void putMany(Map<K, V> map) {
+
+    }
+
+    @Override
+    public Collection<V> getAll() {
+        return Collections.emptyList();
     }
 }

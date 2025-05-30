@@ -2,6 +2,9 @@ package com.xht.passpharmreview.cache.cachedesign;
 
 import com.xht.passpharmreview.cache.CacheBase;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -39,5 +42,15 @@ public class CacheWriteThrough<K,V>  implements CacheBase<K,V> {
     @Override
     public void remove(K key) {
         cache.remove(key);
+    }
+
+    @Override
+    public void putMany(Map<K, V> map) {
+
+    }
+
+    @Override
+    public Collection<V> getAll() {
+        return Collections.emptyList();
     }
 }
