@@ -9,6 +9,8 @@ import com.xht.passpharmreview.model.screen.cachemodel.TaskListCacheModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -26,7 +28,7 @@ public class TaskManager {
         updateDb(key, value);
         return null;
     };
-    private final BiFunction<String, TaskListCacheModel, TaskListCacheModel> putManyFunc = (key, value) -> {
+    private final BiFunction<String, Collection<TaskListCacheModel>, TaskListCacheModel> putManyFunc = (key, value) -> {
         updateDb(key, value);
         return null;
     };
@@ -115,7 +117,8 @@ public class TaskManager {
         //其实这里只需要修改userid 和 status就行了。因为一个任务的变化就这2个地方。
         taskListMapper.updateTaskList(value);
     }
-    private void updateManyToDb(String key, TaskListCacheModel value) {
+
+    private void updateManyToDb(String key, Collection<TaskListCacheModel> value) {
         //这里只是用来修改，根据key找到对应的值，然后进行修改，修改哪些值呢？可以弄多个方法。一个方法更新不同的值。
         //其实这里只需要修改userid 和 status就行了。因为一个任务的变化就这2个地方。
         taskListMapper.updateTaskList(value);

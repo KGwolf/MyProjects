@@ -8,6 +8,7 @@ import com.xht.passpharmreview.cache.multicache.MultiLevelCacheOnlyUpdateCache;
 import com.xht.passpharmreview.cache.multicache.MultiLevelCacheReadThrough;
 import org.springframework.stereotype.Component;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -30,7 +31,7 @@ public class CacheFactory<K, V> {
         return new CacheWriteThrough<K, V>(cacheManager, putFunc);
     }
 
-    public CacheBase<K, V> createWriteCacheWithDelayDoubleDelete(CacheBase<K, V> cacheManager, BiFunction<K, V, V> putFunc) {
+    public CacheBase<K, V> createWriteCacheWithDelayDoubleDelete(CacheBase<K, V> cacheManager, BiConsumer<K, V> putFunc) {
         return new CacheDelayDoubleDelete<K, V>(cacheManager, putFunc);
     }
     //endregion
