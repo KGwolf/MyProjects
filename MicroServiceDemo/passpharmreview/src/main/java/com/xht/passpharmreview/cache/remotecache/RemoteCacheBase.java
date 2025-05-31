@@ -4,7 +4,7 @@ import com.xht.passpharmreview.cache.CacheBase;
 
 /**
  * @ClassName: RemoteCache
- * @Description: TODO
+ * @Description: 远端缓存接口
  * @Author: xiahaitao
  * @Date: 2025/3/25 15:10
  * @Version: V1.0

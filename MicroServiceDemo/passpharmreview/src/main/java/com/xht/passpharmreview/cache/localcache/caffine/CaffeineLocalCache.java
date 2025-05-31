@@ -3,6 +3,7 @@ package com.xht.passpharmreview.cache.localcache.caffine;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.xht.passpharmreview.cache.localcache.LocalCacheBase;
+import com.xht.passpharmreview.cache.localcache.MapLocalCacheBase;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @Version: V1.0
  */
 @Component
-public class CaffeineLocalCache <K, V> implements LocalCacheBase<K, V> {
+public class CaffeineLocalCache <K, V> implements MapLocalCacheBase<K, V> {
     private final Cache<K, V> cache;
 
     public CaffeineLocalCache() {
