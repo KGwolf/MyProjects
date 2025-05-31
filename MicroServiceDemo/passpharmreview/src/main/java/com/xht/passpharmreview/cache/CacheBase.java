@@ -29,7 +29,7 @@ public interface CacheBase<K, V> {
     /***
      * @param
      * @return java.util.Collection<V>
-     * @Description 从缓存中获取全部数据
+     * @Description 从缓存中获取全部数据---这个全部数据量太大了哦？？？
      * @Author xiahaitao
      * @Date 2025/5/29 10:08
      */

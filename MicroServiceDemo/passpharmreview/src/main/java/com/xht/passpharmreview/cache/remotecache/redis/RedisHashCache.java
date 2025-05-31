@@ -67,11 +67,27 @@ public class RedisHashCache<K, V> implements RemoteCacheBase<K, V> {
 
     @Override
     public void putMany(Map<K, V> map) {
-
+        // 使用HMSET命令批量写入（原子操作）
+        redisOpsExtUtil.putAllHash(hashKey, map);
     }
 
     @Override
     public Collection<V> getAll() {
-        return Collections.emptyList();
+        return redisOpsExtUtil.getHashEntries(hashKey);
+    }
+
+    @Override
+    public Collection<V> getMany(Collection<K> keys) {
+        return null;
+    }
+
+    @Override
+    public void removeMany(Collection<K> keys) {
+
+    }
+
+    @Override
+    public void removeAll() {
+
     }
 }

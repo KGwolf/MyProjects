@@ -12,7 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName: CaffeineLocalCache
- * @Description: TODO
+ * @Description: 本地缓存 咖啡因
+ * 这里应该再封装一层，应该操作cachename才对，然后方法里面传过来的key，就是hashmap里面对应的key
+ * 所以这里也要向redis那样写才行？
  * @Author: xiahaitao
  * @Date: 2025/3/28 14:35
  * @Version: V1.0
@@ -45,11 +47,27 @@ public class CaffeineLocalCache <K, V> implements LocalCacheBase<K, V> {
 
     @Override
     public void putMany(Map<K, V> map) {
-
+        cache.putAll(map);
     }
 
+    //这个操作不适用，操作数据量太多
     @Override
     public Collection<V> getAll() {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Collection<V> getMany(Collection<K> keys) {
+        return cache.getAllPresent(keys).values();
+    }
+
+    @Override
+    public void removeMany(Collection<K> keys) {
+        cache.invalidateAll(keys);
+    }
+
+    @Override
+    public void removeAll() {
+        cache.invalidateAll();
     }
 }

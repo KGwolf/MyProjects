@@ -5,10 +5,13 @@ import com.xht.passpharmreview.cache.CacheBase;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 /**
  * @ClassName: MultiLevelCacheDelayDoubleDelete
@@ -24,16 +27,25 @@ public class MultiLevelCacheDelayDoubleDelete <K,V> implements CacheBase<K,V> {
     private final CacheBase<K,V> remoteCache;
 
     // 定义一个私有的 Function 变量，类似于 C# 的 Func<K, V>
-    private final BiFunction<K, V, V> putFunc;
+    private  BiConsumer<K, V> putFunc;
+
+    private  Consumer<Map<K,V>> putManyFunc;
 
     private final ScheduledExecutorService scheduler;
     // 延迟时间，单位为秒
     private static final long DELAY_TIME = 1;
 
-    public MultiLevelCacheDelayDoubleDelete(CacheBase<K,V> localCache,CacheBase<K,V> remoteCache, BiFunction<K, V, V> putFunc) {
+    public MultiLevelCacheDelayDoubleDelete(CacheBase<K,V> localCache,CacheBase<K,V> remoteCache, BiConsumer<K, V> putFunc) {
         this.localCache = localCache;
         this.remoteCache = remoteCache;
         this.putFunc = putFunc;
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+    }
+
+    public MultiLevelCacheDelayDoubleDelete(CacheBase<K,V> localCache,CacheBase<K,V> remoteCache, Consumer<Map<K,V>> putManyFunc) {
+        this.localCache = localCache;
+        this.remoteCache = remoteCache;
+        this.putManyFunc = putManyFunc;
         scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
@@ -47,9 +59,7 @@ public class MultiLevelCacheDelayDoubleDelete <K,V> implements CacheBase<K,V> {
         localCache.remove(key);
         remoteCache.remove(key);
         //2。修改数据库
-        putFunc.apply(key, value);
-
-
+        putFunc.accept(key, value);
 
         // 调度第二次删除缓存的任务
         scheduler.schedule(() -> {
@@ -66,11 +76,37 @@ public class MultiLevelCacheDelayDoubleDelete <K,V> implements CacheBase<K,V> {
 
     @Override
     public void putMany(Map<K, V> map) {
+        Set<K> ks = map.keySet();
+        //1.先删除缓存
+        localCache.removeMany(ks);
+        remoteCache.removeMany(ks);
+        //2。修改数据库
+        putManyFunc.accept(map);
 
+        // 调度第二次删除缓存的任务
+        scheduler.schedule(() -> {
+            localCache.removeMany(ks);
+            remoteCache.removeMany(ks);
+        }, DELAY_TIME, TimeUnit.SECONDS);
     }
 
     @Override
     public Collection<V> getAll() {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Collection<V> getMany(Collection<K> keys) {
+        return null;
+    }
+
+    @Override
+    public void removeMany(Collection<K> keys) {
+
+    }
+
+    @Override
+    public void removeAll() {
+
     }
 }

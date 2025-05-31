@@ -17,6 +17,7 @@ import java.util.function.Function;
 /**
  * @ClassName: CacheDelayDoubleDelete
  * @Description: 缓存延迟双删的实现。
+ * 然后这里直接实现cachebase接口，就会实现很多的不必要的接口。
  * @Author: xiahaitao
  * @Date: 2025/3/28 15:31
  * @Version: V1.0
@@ -40,7 +41,7 @@ public class CacheDelayDoubleDelete<K, V> implements CacheBase<K, V> {
 
 
     //这里如果多个构造方法，都是2个参数要报错 'CacheDelayDoubleDelete(CacheBase<K, V>, BiFunction<K, V, V>)' clashes with 'CacheDelayDoubleDelete(CacheBase<K, V>, BiFunction<K, Collection<V>, V>)'; both methods have same erasure
-    //垃圾解决法：换下参数的位置。。。。
+    //垃圾解决法：换下参数的位置。。。。 换一个参数类型
     public CacheDelayDoubleDelete(CacheBase<K, V> cache, BiConsumer<K, V> putFunc) {
         this.cache = cache;
         this.putFunc = putFunc;

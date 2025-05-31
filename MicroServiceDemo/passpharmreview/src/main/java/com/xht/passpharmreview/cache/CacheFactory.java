@@ -8,8 +8,10 @@ import com.xht.passpharmreview.cache.multicache.MultiLevelCacheOnlyUpdateCache;
 import com.xht.passpharmreview.cache.multicache.MultiLevelCacheReadThrough;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -37,8 +39,19 @@ public class CacheFactory<K, V> {
     //endregion
 
     //region 多级缓存
-    public CacheBase<K, V> createMultiLevelWriteCacheWithDelayDoubleDelete(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache, BiFunction<K, V, V> putFunc) {
+    public CacheBase<K, V> createMultiLevelWriteCacheWithDelayDoubleDelete(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache, BiConsumer<K, V> putFunc) {
         return new MultiLevelCacheDelayDoubleDelete<K, V>(localCache, remoteCache, putFunc);
+    }
+
+    /**
+     * 多级缓存---延迟双删---多条记录
+     * @param localCache
+     * @param remoteCache
+     * @param putManyFunc
+     * @return
+     */
+    public CacheBase<K, V> createMultiLevelWriteCacheWithDelayDoubleDelete(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache, Consumer<Map<K,V>> putManyFunc) {
+        return new MultiLevelCacheDelayDoubleDelete<K, V>(localCache, remoteCache, putManyFunc);
     }
 
     public  CacheBase<K, V> createMultiLevelCacheReadThrough(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache,  Function<K, V> getFunc)

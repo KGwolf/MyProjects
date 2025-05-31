@@ -11,7 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -24,18 +27,10 @@ import java.util.function.Function;
 @Component
 public class TaskManager {
 
-    private final BiFunction<String, TaskListCacheModel, TaskListCacheModel> putFunc = (key, value) -> {
-        updateDb(key, value);
-        return null;
-    };
-    private final BiFunction<String, Collection<TaskListCacheModel>, TaskListCacheModel> putManyFunc = (key, value) -> {
-        updateDb(key, value);
-        return null;
-    };
+    private final BiConsumer<String, TaskListCacheModel> putFunc = this::updateDb;
+    private final Consumer<Map<String,TaskListCacheModel>> putManyFunc = this::updateManyToDb;
 
-    private final Function<String, TaskListCacheModel> getFunc = key -> {
-        return getFromDb(key);
-    };
+    private final Function<String, TaskListCacheModel> getFunc = this::getFromDb;
     @Autowired
     RedisHashCache<String, TaskListCacheModel> taskRemoteCache;
     @Autowired
@@ -58,6 +53,19 @@ public class TaskManager {
     public void setTaskModel(String key, TaskListCacheModel json) {
         CacheBase<String, TaskListCacheModel> putCache = cacheFactory.createMultiLevelWriteCacheWithDelayDoubleDelete(taskLocalCache, taskRemoteCache, putFunc);
         putCache.put(key, json);
+
+    }
+
+    /***
+     * @return void
+     * @Description 这个一般是修改记录用的，---多条记录
+     *      延迟双删有个问题：每次修改的时候redis就会删除缓存，然后下次请求还需要从数据库中去取
+     * @Author xiahaitao
+     * @Date 2025/5/30 10:41
+     */
+    public void setManyTaskModel(Map<String,TaskListCacheModel> mapList) {
+        CacheBase<String, TaskListCacheModel> putCache = cacheFactory.createMultiLevelWriteCacheWithDelayDoubleDelete(taskLocalCache, taskRemoteCache, putManyFunc);
+        putCache.putMany(mapList);
 
     }
 
@@ -118,10 +126,10 @@ public class TaskManager {
         taskListMapper.updateTaskList(value);
     }
 
-    private void updateManyToDb(String key, Collection<TaskListCacheModel> value) {
+    private void updateManyToDb(Map<String,TaskListCacheModel> value) {
         //这里只是用来修改，根据key找到对应的值，然后进行修改，修改哪些值呢？可以弄多个方法。一个方法更新不同的值。
         //其实这里只需要修改userid 和 status就行了。因为一个任务的变化就这2个地方。
-        taskListMapper.updateTaskList(value);
+//        taskListMapper.updateTaskList(value);
     }
 
     /**

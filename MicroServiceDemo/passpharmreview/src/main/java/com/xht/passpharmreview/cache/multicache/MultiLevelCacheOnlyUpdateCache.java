@@ -52,4 +52,19 @@ public class MultiLevelCacheOnlyUpdateCache  <K,V> implements CacheBase<K,V> {
     public Collection<V> getAll() {
         return Collections.emptyList();
     }
+
+    @Override
+    public Collection<V> getMany(Collection<K> keys) {
+        return null;
+    }
+
+    @Override
+    public void removeMany(Collection<K> keys) {
+
+    }
+
+    @Override
+    public void removeAll() {
+
+    }
 }
