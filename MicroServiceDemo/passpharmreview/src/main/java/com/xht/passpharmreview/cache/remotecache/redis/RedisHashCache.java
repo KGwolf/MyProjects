@@ -77,6 +77,14 @@ public class RedisHashCache<K, V> implements MapRemoteCacheBase<K, V> {
         return redisOpsExtUtil.getHashEntries(hashKey);
     }
 
+    /***
+     * @param
+     * @return java.lang.String
+     * @Description 如果其中一部分缓存里面没有怎么办？
+     * 还是麻烦，要缓存的框架支持高性能的多个key值查找。还要返回没有值的那些key集合，好方便查找然后放入到缓存中。
+     * @Author xiahaitao
+     * @Date 2025/5/28 20:57
+     */
     @Override
     public Map<K, V> getMany(Collection<K> keys) {
         return null;
@@ -90,5 +98,10 @@ public class RedisHashCache<K, V> implements MapRemoteCacheBase<K, V> {
     @Override
     public void removeAll() {
 
+    }
+
+    @Override
+    public boolean hasData() {
+        return redisOpsExtUtil.isHashEmpty(hashKey);
     }
 }

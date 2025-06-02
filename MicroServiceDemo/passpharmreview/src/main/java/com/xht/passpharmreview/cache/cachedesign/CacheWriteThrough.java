@@ -46,26 +46,26 @@ public class CacheWriteThrough<K,V>  implements CacheBase<K,V> {
 
     @Override
     public void putMany(Map<K, V> map) {
-
+        cache.putMany(map);
     }
 
     @Override
-    public Collection<V> getAll() {
-        return Collections.emptyList();
+    public Map<K, V> getAll() {
+        return cache.getAll();
     }
 
     @Override
-    public Collection<V> getMany(Collection<K> keys) {
-        return null;
+    public Map<K, V> getMany(Collection<K> keys) {
+        return cache.getMany(keys);
     }
 
     @Override
     public void removeMany(Collection<K> keys) {
-
+        cache.removeMany(keys);
     }
 
     @Override
     public void removeAll() {
-
+        cache.removeAll();
     }
 }

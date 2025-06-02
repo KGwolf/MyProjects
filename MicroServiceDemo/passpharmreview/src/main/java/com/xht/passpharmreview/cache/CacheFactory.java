@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 /**
  * @ClassName: CacheFactory
- * @Description: TODO
+ * @Description: 这些东西还是只能用CacheBase接口，因为获取到了之后，还要放到缓存中。
  * @Author: xiahaitao
  * @Date: 2025/3/28 15:40
  * @Version: V1.0

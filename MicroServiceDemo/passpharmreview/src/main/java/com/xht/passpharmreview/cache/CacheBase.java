@@ -12,5 +12,9 @@ import java.util.Map;
  * @Version: V1.0
  */
 public interface CacheBase<K, V> extends ReadCacheBase<K,V>,WriteCacheBase<K,V> {
-
+    /**
+     * 缓存是否存在数据
+     * @return
+     */
+    boolean hasData();
 }

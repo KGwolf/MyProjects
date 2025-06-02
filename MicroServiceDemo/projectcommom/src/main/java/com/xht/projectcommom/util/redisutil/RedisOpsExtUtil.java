@@ -13,12 +13,11 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -200,6 +199,13 @@ public class RedisOpsExtUtil {
      */
     public void publish(String channel, Object message) {
         redisTemplate.convertAndSend(channel, message);
+    }
+
+
+    public boolean isHashEmpty(String key) {
+        // 获取 Hash 的所有字段列表
+        Set<Object> fields = redisTemplate.opsForHash().keys(key);
+        return fields == null || fields.isEmpty();
     }
 
 }
