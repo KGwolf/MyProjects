@@ -73,12 +73,12 @@ public class RedisHashCache<K, V> implements MapRemoteCacheBase<K, V> {
     }
 
     @Override
-    public Collection<V> getAll() {
+    public Map<K, V> getAll() {
         return redisOpsExtUtil.getHashEntries(hashKey);
     }
 
     @Override
-    public Collection<V> getMany(Collection<K> keys) {
+    public Map<K, V> getMany(Collection<K> keys) {
         return null;
     }
 

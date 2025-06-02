@@ -2,10 +2,9 @@ package com.xht.passpharmreview.cachemanager.dict;
 
 import com.xht.passpharmreview.cache.CacheBase;
 import com.xht.passpharmreview.cache.CacheFactory;
-import com.xht.passpharmreview.cache.localcache.caffine.CaffeineLocalCache;
+import com.xht.passpharmreview.cache.localcache.caffine.MapCaffeineLocalCache;
 import com.xht.passpharmreview.cache.remotecache.redis.RedisHashCache;
 import com.xht.passpharmreview.model.initload.PharmacistModel;
-import com.xht.passpharmreview.model.screen.cachemodel.TaskListCacheModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +30,7 @@ public class PharmacyManager {
     @Autowired
     RedisHashCache<String, PharmacistModel> taskRemoteCache;
     @Autowired
-    CaffeineLocalCache<String, PharmacistModel> taskLocalCache;
+    MapCaffeineLocalCache<String, PharmacistModel> taskLocalCache;
     @Autowired
     CacheFactory<String, PharmacistModel> cacheFactory;
 

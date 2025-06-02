@@ -17,7 +17,7 @@ import java.util.function.Function;
 /**
  * @ClassName: CacheDelayDoubleDelete
  * @Description: 缓存延迟双删的实现。
- * 然后这里直接实现cachebase接口，就会实现很多的不必要的接口。
+ * 然后这里直接实现cachebase接口，就会实现很多的不必要的接口：分成写接口和读接口？
  * @Author: xiahaitao
  * @Date: 2025/3/28 15:31
  * @Version: V1.0
@@ -31,7 +31,6 @@ public class CacheDelayDoubleDelete<K, V> implements CacheBase<K, V> {
     //还有这个key 和 value 的作用是啥，感觉不需要key呢？还是需要的，因为要根据key去缓存里面找到记录，然后再删除。
     private BiConsumer<K, V> putFunc = (key, value) -> {
     };
-
     private Consumer<Map<K, V>> putManyFunc = map -> {
     };
 

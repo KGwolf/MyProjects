@@ -1,6 +1,5 @@
 package com.xht.passpharmreview.service;
 
-import com.xht.passpharmreview.cache.localcache.caffine.CaffeineLocalCache;
 import com.xht.passpharmreview.cachemanager.task.TaskManager;
 import com.xht.passpharmreview.model.screen.cachemodel.TaskAllCacheModel;
 import com.xht.passpharmreview.model.screen.inputmodel.JsonDataModel;

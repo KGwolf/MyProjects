@@ -2,18 +2,15 @@ package com.xht.passpharmreview.cachemanager.task;
 
 import com.xht.passpharmreview.cache.CacheBase;
 import com.xht.passpharmreview.cache.CacheFactory;
-import com.xht.passpharmreview.cache.localcache.caffine.CaffeineLocalCache;
+import com.xht.passpharmreview.cache.localcache.caffine.MapCaffeineLocalCache;
 import com.xht.passpharmreview.cache.remotecache.redis.RedisHashCache;
 import com.xht.passpharmreview.mapper.task.TaskListMapper;
 import com.xht.passpharmreview.model.screen.cachemodel.TaskListCacheModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -34,7 +31,7 @@ public class TaskManager {
     @Autowired
     RedisHashCache<String, TaskListCacheModel> taskRemoteCache;
     @Autowired
-    CaffeineLocalCache<String, TaskListCacheModel> taskLocalCache;
+    MapCaffeineLocalCache<String, TaskListCacheModel> taskLocalCache;
     @Autowired
     CacheFactory<String, TaskListCacheModel> cacheFactory;
 

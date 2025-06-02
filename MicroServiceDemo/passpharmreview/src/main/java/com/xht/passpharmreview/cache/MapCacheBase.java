@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @ClassName: Cache
- * @Description: Map类型缓存操作接口
+ * @Description: Map类型缓存操作接口   CacheBase里面有这些方法的定义了，还有必要存在这个接口吗？
  * @Author: xiahaitao
  * @Date: 2025/5/31 10:06
  * @Version: V1.0
