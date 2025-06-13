@@ -1,7 +1,7 @@
 package com.xht.passpharmreview.cache.localcache.caffine;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import com.xht.passpharmreview.cache.localcache.MapLocalCacheBase;
+import com.xht.passpharmreview.cache.localcache.LocalCacheBase;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import java.util.Map;
  * @Date: 2025/3/28 14:35
  * @Version: V1.0
  */
-public class MapCaffeineLocalCache<K, V> implements MapLocalCacheBase<K, V> {
+public class MapCaffeineLocalCache<K, V> implements LocalCacheBase<K, V> {
     private final Cache<K, V> cache;
 
     public MapCaffeineLocalCache(Cache<K, V> cache) {
@@ -69,5 +69,10 @@ public class MapCaffeineLocalCache<K, V> implements MapLocalCacheBase<K, V> {
     @Override
     public void removeAll() {
         cache.invalidateAll();
+    }
+
+    @Override
+    public boolean hasData() {
+        return false;
     }
 }

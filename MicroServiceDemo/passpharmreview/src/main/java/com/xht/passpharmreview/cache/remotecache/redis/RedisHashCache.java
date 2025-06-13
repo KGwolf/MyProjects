@@ -1,14 +1,9 @@
 package com.xht.passpharmreview.cache.remotecache.redis;
 
-import com.xht.passpharmreview.cache.remotecache.MapRemoteCacheBase;
 import com.xht.passpharmreview.cache.remotecache.RemoteCacheBase;
-import com.xht.passpharmreview.constvar.RedisConst;
 import com.xht.projectcommom.util.redisutil.RedisOpsExtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -18,7 +13,7 @@ import java.util.Map;
  * @Date: 2025/3/28 11:07
  * @Version: V1.0
  */
-public class RedisHashCache<K, V> implements MapRemoteCacheBase<K, V> {
+public class RedisHashCache<K, V> implements RemoteCacheBase<K, V> {
 
     private final RedisOpsExtUtil redisOpsExtUtil;
 

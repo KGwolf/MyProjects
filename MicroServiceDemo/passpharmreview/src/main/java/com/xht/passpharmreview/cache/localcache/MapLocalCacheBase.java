@@ -1,7 +1,6 @@
 package com.xht.passpharmreview.cache.localcache;
 
-import com.xht.passpharmreview.cache.CacheBase;
-import com.xht.passpharmreview.cache.MapCacheBase;
+import com.xht.passpharmreview.cache.MapCacheBaseT;
 
 /**
  * @ClassName: MapLocalCacheBase
@@ -10,6 +9,6 @@ import com.xht.passpharmreview.cache.MapCacheBase;
  * @Date: 2025/3/25 15:11
  * @Version: V1.0
  */
-public interface MapLocalCacheBase<K,V> extends MapCacheBase<K,V> {
+public interface MapLocalCacheBase<K,V> extends MapCacheBaseT<K,V> {
 
 }

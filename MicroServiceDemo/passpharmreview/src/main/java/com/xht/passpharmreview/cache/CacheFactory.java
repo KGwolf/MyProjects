@@ -50,7 +50,7 @@ public class CacheFactory<K, V> {
      * @param putManyFunc
      * @return
      */
-    public MapCacheBase<K, V> createMultiLevelWriteCacheWithDelayDoubleDelete(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache, Consumer<Map<K,V>> putManyFunc) {
+    public MapCacheBaseT<K, V> createMultiLevelWriteCacheWithDelayDoubleDelete(CacheBase<K, V> localCache, CacheBase<K, V> remoteCache, Consumer<Map<K,V>> putManyFunc) {
         return new MultiLevelCacheDelayDoubleDelete<K, V>(localCache, remoteCache, putManyFunc);
     }
 

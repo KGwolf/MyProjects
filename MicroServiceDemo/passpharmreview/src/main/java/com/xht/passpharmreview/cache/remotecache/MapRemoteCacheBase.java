@@ -1,6 +1,6 @@
 package com.xht.passpharmreview.cache.remotecache;
 
-import com.xht.passpharmreview.cache.MapCacheBase;
+import com.xht.passpharmreview.cache.CacheBase;
 
 /**
  * @ClassName: RemoteCache
@@ -9,5 +9,5 @@ import com.xht.passpharmreview.cache.MapCacheBase;
  * @Date: 2025/3/25 15:10
  * @Version: V1.0
  */
-public interface MapRemoteCacheBase<K,V> extends MapCacheBase<K,V> {
+public interface MapRemoteCacheBase<K,V> extends CacheBase<K,V> {
 }

@@ -10,7 +10,7 @@ import java.util.Map;
  * @Date: 2025/5/31 10:06
  * @Version: V1.0
  */
-public interface MapCacheBase<K,V> extends CacheBase<K,V>{
+public interface MapCacheBaseT<K,V> extends CacheBase<K,V>{
     /***
      * @param map
      * @return void
