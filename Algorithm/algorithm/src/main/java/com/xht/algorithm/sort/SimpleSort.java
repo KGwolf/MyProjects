@@ -14,7 +14,9 @@ public class SimpleSort {
         //选择排序
         //selectSort(arr);
 
-        bubbleSort(arr);
+        //bubbleSort(arr);
+
+        insertSort(arr);
         print(arr);
     }
 
@@ -81,7 +83,8 @@ public class SimpleSort {
         }
         int arrLength = arr.length;
         for (int i = 1; i < arrLength; i++) {
-            for (int j = i; j < arrLength; j++) {
+            //从后往前遍历交换
+            for (int j = arrLength - 1; j >= i; j--) {
                 if (arr[j] < arr[j - 1]){
                     swap(arr, j, j-1);
                 }
