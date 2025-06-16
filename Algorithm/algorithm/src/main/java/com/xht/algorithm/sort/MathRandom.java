@@ -1,14 +1,29 @@
-package com.xht.algorithm;
+package com.xht.algorithm.sort;
 
 /**
- * @ClassName: MathRandomTest
+ * @ClassName: MathRandom
  * @Description: 从1-5随机 到1-7随机：f函数用Math来实现1-5随机，然后f1函数只能用f函数来实现1-7随机，不能在用其它的函数或者Math类了。
  * @Author: xiahaitao
  * @Date: 2025/6/16 16:58
  * @Version: V1.0
  */
-public class MathRandomTest {
+public class MathRandom {
+
     public static void main(String[] args) {
+        //首先看得到的数是什么范围，然后看概率
+        System.out.println(getRandom());
+        int[] arr = new int[10];
+        int allCallTimes = 100000;
+        int specialTimes = 0;
+        for (int i = 0; i < allCallTimes; i++) {
+            double random = getRandom();
+            if (random <= 0.5){
+                specialTimes++;
+            }
+        }
+        System.out.println( (double)specialTimes/(double)allCallTimes);
+
+
         //测试 调用f2是否是等概率的返回0和1
 //        int times = 1000000;
 //        int arr[] = new int[2];
@@ -17,9 +32,13 @@ public class MathRandomTest {
 //            arr[resI]++;
 //        }
 //        System.out.println("0的个数："+arr[0]);
-
-
     }
+
+
+    public static double getRandom(){
+        return Math.random();
+    }
+
 
     /***
      * @param
